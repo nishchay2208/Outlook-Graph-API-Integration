@@ -82,7 +82,9 @@ def fetch_inbox_emails(access_token, top=10):
     if response.status_code == 200:
         emails = response.json().get('value', [])
         for mail in emails:
-            print(From: {mail.get('from', {}).get('emailAddress', {}).get('address','?')}, Subject: {mail.get('subject','No Subject')}")
+            from_email = mail.get('from', {}).get('emailAddress', {}).get('address', '?')
+            subject = mail.get('subject', 'No Subject')
+            print(f"From: {from_email}, Subject: {subject}")
     else:
         print("Error fetching emails:", response.text)
 
@@ -92,7 +94,9 @@ def fetch_all_emails(access_token, top=10):
     if response.status_code == 200:
         emails = response.json().get('value', [])
         for mail in emails:
-            print(From: {mail.get('from', {}).get('emailAddress', {}).get('address','?')}, Subject: {mail.get('subject','No Subject')}")
+            from_email = mail.get('from', {}).get('emailAddress', {}).get('address', '?')
+            subject = mail.get('subject', 'No Subject')
+            print(f"From: {from_email}, Subject: {subject}")
     else:
         print("Error fetching all emails:", response.text)
 
@@ -102,9 +106,12 @@ def search_emails(access_token, query, top=10):
     if response.status_code == 200:
         emails = response.json().get('value', [])
         for mail in emails:
-            print(From: {mail['from']['emailAddress']['address']}, Subject: {mail['subject']}")
+            from_email = mail.get('from', {}).get('emailAddress', {}).get('address', '?')
+            subject = mail.get('subject', 'No Subject')
+            print(f"From: {from_email}, Subject: {subject}")
     else:
         print("Error searching emails:", response.text)
+
 
 def send_email(access_token, to_email, subject, body, attachment_path=None):
     headers = {'Authorization': f'Bearer {access_token}', 'Content-Type': 'application/json'}
